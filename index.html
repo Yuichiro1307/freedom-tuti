@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>フェイク通知作成</title>
+<style>
+  body { font-family: sans-serif; margin: 20px; }
+  input, textarea { width: 300px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<h2>お好みにタイトル、内容画像を編集してください。</h2>
+
+<label>通知タイトル：</label><br>
+<input id="title" type="text" placeholder="例：お知らせ"><br>
+
+<label>通知内容：</label><br>
+<textarea id="body" placeholder="例：新しいサイトを作りました"></textarea><br>
+
+<label>通知画像URL：</label><br>
+<input id="icon" type="text" placeholder="例：https://example.com/icon.png"><br>
+
+<button id="sendBtn">通知を送る</button>
+
+<script>
+// ボタンクリック時
+document.getElementById("sendBtn").onclick = async () => {
+    const title = document.getElementById("title").value;
+    const body  = document.getElementById("body").value;
+    const icon  = document.getElementById("icon").value;
+
+    // ① 通知権限の確認
+    if (Notification.permission === "default") {
+        await Notification.requestPermission();
+    }
+
+    // ② 権限がない場合は終了
+    if (Notification.permission !== "granted") {
+        alert("通知の許可が必要です。file:// URLから実行している場合はhttps://yuichiro1307.github.io/freedom-tutiを利用するか独自でサーバーを立ててください。");
+        return;
+    }
+
+    // ③ 通知を表示
+    new Notification(title, {
+        body: body,
+        icon: icon  
+    });
+};
+</script>
+
+</body>
+</html>
