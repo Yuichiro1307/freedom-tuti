@@ -10,7 +10,8 @@
 </head>
 <body>
 
-<h2>お好みにタイトル、内容画像を編集してください。</h2>
+<h2>自由な通知を作成することができます。
+  お好みにタイトル、内容画像を編集してください。</h2>
 
 <label>通知タイトル：</label><br>
 <input id="title" type="text" placeholder="例：お知らせ"><br>
@@ -24,24 +25,18 @@
 <button id="sendBtn">通知を送る</button>
 
 <script>
-// ボタンクリック時
 document.getElementById("sendBtn").onclick = async () => {
     const title = document.getElementById("title").value;
     const body  = document.getElementById("body").value;
     const icon  = document.getElementById("icon").value;
-
-    // ① 通知権限の確認
     if (Notification.permission === "default") {
         await Notification.requestPermission();
     }
 
-    // ② 権限がない場合は終了
     if (Notification.permission !== "granted") {
         alert("通知の許可が必要です。file:// URLから実行している場合はhttps://yuichiro1307.github.io/freedom-tutiを利用するか独自でサーバーを立ててください。");
         return;
     }
-
-    // ③ 通知を表示
     new Notification(title, {
         body: body,
         icon: icon  
